@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 使用Shiro的自带的缓存机制 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />   
+	
+	<!-- 配置通配符的方式进行权限配置 -->
+	<bean id="permissionResolver" class="org.apache.shiro.authz.permission.WildcardPermissionResolver"/>
+	<!-- 配置权限验证 -->
+	<bean id="authorizer" class="org.apache.shiro.authz.ModularRealmAuthorizer">
+		<!-- 引用配置好的权限配置permissionResolver -->
+		<property name="permissionResolver" ref="permissionResolver" />
+		<!-- 引用配置好的角色权限配置rolePermissionResolver -->
+		<property name="rolePermissionResolver" ref="rolePermissionResolver" />
+	</bean>
+
+    <!-- 配置权限管理器 -->  
+    <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+    	<!-- 引用配置好的数据源dataSource -->
+    	<property name="dataSource" ref="dataSource"></property>
+    </bean>
+    
+    <!-- 配置安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+   		<property name="authorizer" ref="authorizer" />  
+        <!-- 我们自定义的realm -->  
+        <property name="realm" ref="jdbcRealm"/>    
+        <!-- 缓存管理器 -->  
+        <property name="cacheManager" ref="cacheManager"/>    
+        
+    </bean> 
+    
+    <!-- 配置Shiro的过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">   
+        <!-- 权限管理器 -->   
+        <property name="securityManager" ref="securityManager"/>   
+        <!-- 登录地址 -->   
+        <property name="loginUrl" value="/WEB-INF/views/login.jsp"/>      
+        <!-- 错误页面 -->  
+        <property name="unauthorizedUrl" value="/WEB-INF/views/unauth.jsp"/>    
+        <!-- 权限配置 -->  
+        <property name="filterChainDefinitions">    
+            <value>  
+                /login = anon
+                /css/**=anon  
+                /images/**=anon
+                /js/**=anon
+            </value>    
+        </property>    
+    </bean>  
+      
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>  
