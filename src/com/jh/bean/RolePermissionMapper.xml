@@ -5,7 +5,7 @@
 <mapper namespace="com.jh.dao.RolePermissionDAO">
 
 	<select id="queryAllPermissionByRoleName" parameterType="String" resultType="String">
-		select permission from roles_permissions where role_name = #{roleName}
+		select name from t_permission where id in (select permission_id from t_role_permission where role_id in (select id from t_roles where name = #{roleName}))
 	</select>
 	 
 </mapper>

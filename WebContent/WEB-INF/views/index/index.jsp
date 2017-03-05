@@ -20,6 +20,7 @@
 <body>
 	<h3>Home Page</h3>
 	<a href="<%=path %>/user/login_page">Shiro登录</a>
+	<a href="<%=path %>/activiti/login_page">Activiti登录</a>
 	<h4>百度的富文本编辑器</h4>
 	<script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
 

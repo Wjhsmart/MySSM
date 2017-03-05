@@ -12,10 +12,10 @@
 <body>
 	<div style="color:red;font-size:16px;">${requestScope.error }</div>
 	<form action="<%=path %>/user/login" method="post">
-		<label>用户名：</label>
-		<input type="text" placeholder="请输入用户名" name="username" />
+		<label>邮箱：</label>
+		<input type="email" placeholder="请输入邮箱" name="email" />
 		<label>密码：</label>
-		<input type="password" placeholder="请输入密码" name="password" />
+		<input type="password" placeholder="请输入密码" name="pwd" />
 		<input type="submit" value="登录" />
 	</form>
 </body>

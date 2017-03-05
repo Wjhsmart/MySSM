@@ -23,6 +23,12 @@
     <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
     	<!-- 引用配置好的数据源dataSource -->
     	<property name="dataSource" ref="dataSource"></property>
+    	<!-- 根据用户邮箱查找用户密码 -->
+    	<property name="authenticationQuery" value="select pwd from t_user where email = ?"></property>
+    	<!-- 根据用户的邮箱查找用户的角色名称 -->
+    	<property name="userRolesQuery" value="select name from t_roles where id in (select role_id from t_user_role where user_id = (select id from t_user where email = ?))" />
+    	<!-- 根据用户的邮箱查找用户的权限 -->
+    	<property name="permissionsQuery" value="select name from t_permission where id in (select permission_id from t_role_permission where role_id in (select role_id from t_user_role where user_id = (select id from t_user where email = ?)))" />
     </bean>
     
     <!-- 配置安全管理器 -->

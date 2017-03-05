@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jh.bean.User;
-import com.jh.bean.Users;
 import com.jh.service.UserService;
 
 import ch.qos.logback.classic.Logger;
@@ -48,10 +47,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
-	public ModelAndView login(Users users, HttpServletRequest req) {
+	public ModelAndView login(User user, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView("shiro/home");
 		Subject subject = SecurityUtils.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken(users.getUsername(), users.getPassword());
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getEmail(), user.getPwd());
 		try {  
 	        subject.login(token);  
 	        Session session = subject.getSession();
