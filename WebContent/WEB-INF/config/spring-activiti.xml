@@ -16,8 +16,6 @@
 		<property name="transactionManager" ref="transactionManager" />
 		<!-- 告诉数据库，如果有表了，则直接使用，如果没有，则创建 -->
 		<property name="databaseSchemaUpdate" value="true" />
-		<property name="mailServerHost" value="localhost" />
-		<property name="mailServerPort" value="5025" />
 		<property name="jobExecutorActivate" value="false" />
         <property name="customFormTypes">
           <list>
@@ -26,6 +24,24 @@
             <bean class="org.activiti.rest.form.MonthFormType"/>   
           </list>
         </property>
+        <!-- 配置图片中文乱码的问题 -->
+        <property name="activityFontName" value="宋体"/>
+		<property name="labelFontName" value="宋体"/>
+		<!-- 自动部署指定目录下面的流程图 -->
+		<property name="deploymentResources" value="classpath*:/activiti_diagrams/*.bpmn" />
+		<!-- 表示部署模式，如果部署文件没有改动，则不会重新部署，如果部署文件有改动，则会把改动的文件重新部署，是版本号会叠加，不会删除原来的部署 -->
+		<property name="deploymentMode" value="single-resource"></property>
+		<!-- 配置发送邮件的服务端口 -->
+		<property name="mailServerHost" value="smtp.qq.com" />
+		<!-- 邮件服务的端口号，如果没有，默认是25 -->
+        <property name="mailServerPort" value="465"/>
+        <!-- 邮件服务默认发送者 -->
+        <property name="mailServerDefaultFrom" value="672630243@qq.com" />
+        <!-- 邮件服务发送者的昵称 -->
+        <property name="mailServerUsername" value="Wjhsmart" />
+        <!-- 邮箱服务密码 -->
+        <property name="mailServerPassword" value="bulibuqi.520" />
+        <property name="mailServerUseSSL" value="true" />
 	</bean>
 
 	<!-- 配置流程引擎，id在java代码中需要引用的名称 -->
